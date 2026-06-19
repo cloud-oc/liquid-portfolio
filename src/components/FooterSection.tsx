@@ -40,7 +40,7 @@ export function FooterSection() {
           </div>
           <div className="grid gap-5 border-t border-white/15 px-6 py-5 text-xs text-white/65 md:grid-cols-[1fr_auto_auto] md:items-center md:px-8 lg:px-10">
             <span>
-              © {yearRange} {profile.name}㋛. All Rights Reserved.
+              © {yearRange} {profile.name}. All Rights Reserved.
             </span>
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-white/45">友情链接</span>
