@@ -1,11 +1,31 @@
-# Username Creative Portfolio Template
+# Liquid Portfolio
 
-这是一个适合部署到 GitHub Pages 的个人作品集网站，使用 Vite、React、TypeScript、Tailwind CSS、Framer Motion 和 Lucide React 构建。页面内容集中在配置文件中，后续新增作品或替换个人资料时不需要重写页面结构。
+[中文](README.md) | [日本語](README.ja.md) | [English](README.en.md)
 
-## 本地运行
+Liquid Portfolio 是一个面向视觉创作者的单页作品集模板。它适合用来展示个人简介、服务项目、精选作品、友情链接和联系方式，也适合作为设计师、3D 艺术家、动态设计师或小型创意工作室的官网起点。
+
+模板使用 Vite、React、TypeScript、Tailwind CSS、Framer Motion 和 Lucide React 构建，适合部署到 GitHub Pages。主要内容集中维护在 `src/content/portfolio.ts` 中，通常只需要替换文字、作品图片和链接，就能快速生成一个属于自己的作品集网站。
+
+## 技术栈
+
+- Vite
+- React
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+
+## 快速开始
+
+安装依赖：
 
 ```bash
 npm install
+```
+
+启动本地开发服务：
+
+```bash
 npm run dev
 ```
 
@@ -21,64 +41,15 @@ npm run build
 npm run preview
 ```
 
-## GitHub Pages 部署
+## 自定义个人信息
 
-项目已经包含自动部署工作流：
-
-```text
-.github/workflows/deploy.yml
-```
-
-推荐仓库设置：
-
-1. 仓库分支使用 `main`。
-2. 打开 GitHub 仓库的 `Settings > Pages`。
-3. 在 `Build and deployment` 中选择 `GitHub Actions`。
-4. 推送代码到 `main` 后，Actions 会自动构建并发布 `dist`。
-
-### `username.github.io` 特殊仓库
-
-如果你的仓库名是 `你的用户名.github.io`，这是 GitHub Pages 的用户站点，站点根路径是 `/`。保持默认配置即可：
-
-```text
-VITE_BASE_PATH=/
-```
-
-### 普通项目 Pages 仓库
-
-如果仓库不是 `username.github.io`，而是类似 `portfolio`，Pages 地址通常是：
-
-```text
-https://你的用户名.github.io/portfolio/
-```
-
-这时需要在 GitHub 仓库里添加 Actions 变量：
-
-```text
-Settings > Secrets and variables > Actions > Variables
-Name: VITE_BASE_PATH
-Value: /portfolio/
-```
-
-本地也可以复制 `.env.example` 为 `.env.local`，再修改：
-
-```bash
-cp .env.example .env.local
-```
-
-```text
-VITE_BASE_PATH=/portfolio/
-```
-
-## 修改个人信息
-
-主要内容都在：
+主要内容在：
 
 ```text
 src/content/portfolio.ts
 ```
 
-常用字段：
+你可以先修改 `profile`：
 
 ```ts
 export const profile = {
@@ -89,25 +60,35 @@ export const profile = {
     "a visual creator crafting striking brands, web experiences, motion, and unforgettable digital projects",
   aboutTitle: "About me",
   about: "With more than five years of experience...",
-  contactEmail: "username@example.com",
   contactLabel: "Contact Me",
+  contactEmail: "username@example.com",
   contactUrl: "#footer-contact",
 };
 ```
 
-把 `name`、`heroTitle`、`contactEmail` 等字段改成你的个人信息。如果希望按钮跳到邮箱、社交链接或联系表单，也可以修改 `contactUrl`。例如：
+常用修改项包括：
+
+- `name`：网站中的名称
+- `heroTitle`：首屏标题
+- `heroDescription`：首屏简介
+- `about`：关于我正文
+- `contactEmail`：联系邮箱
+- `contactUrl`：按钮跳转地址，例如 `mailto:your-name@example.com`
+
+## 自定义导航与友情链接
+
+导航配置在 `navLinks` 中：
 
 ```ts
-contactUrl: "mailto:your-name@example.com"
+export const navLinks = [
+  { label: "关于我", href: "#about" },
+  { label: "商业合作", href: "#services" },
+  { label: "艺术作品", href: "#projects" },
+  { label: "联系我", href: "#footer-contact" },
+];
 ```
 
-## 修改友情链接
-
-页脚友情链接在：
-
-```text
-src/content/portfolio.ts
-```
+页脚友情链接配置在 `friendLinks` 中：
 
 ```ts
 export const friendLinks = [
@@ -115,11 +96,9 @@ export const friendLinks = [
 ];
 ```
 
-可以继续往数组里新增链接。
+## 添加作品
 
-## 新增或替换作品
-
-作品数据在 `projects` 数组中：
+作品内容在 `projects` 数组中。复制一个项目对象并替换字段即可新增作品：
 
 ```ts
 export const projects = [
@@ -147,19 +126,19 @@ export const projects = [
 ];
 ```
 
-推荐把作品图片放到：
+推荐把作品图片放在：
 
 ```text
 public/artworks/project-name/
 ```
 
-然后在配置里使用：
+然后使用站内路径引用：
 
 ```ts
 src: "/artworks/project-name/cover.webp"
 ```
 
-推荐图片规格：
+推荐图片尺寸：
 
 ```text
 cover.webp       1600 x 1200 或更高
@@ -167,11 +146,11 @@ detail-1.webp    1200 x 800
 detail-2.webp    1200 x 1200
 ```
 
-尽量使用 `.webp` 或压缩后的 `.jpg`，避免直接上传超大的原始渲染图。
+建议使用 `.webp` 或压缩后的 `.jpg`，避免直接上传体积过大的原始图片。
 
 ## 修改服务项目
 
-服务内容在 `services` 数组中：
+服务项目在 `services` 数组中：
 
 ```ts
 export const services = [
@@ -183,80 +162,81 @@ export const services = [
 ];
 ```
 
-可以新增、删除或重新排序。页面会自动渲染列表。
+你可以自由新增、删除或重新排序，页面会自动按照数组内容渲染。
 
-## 替换背景与动效素材
+## 替换音频与视觉素材
 
-全站共享的雾面玻璃背景在全局样式里维护：
+背景音乐文件位于：
+
+```text
+public/audio/bgm.mp3
+```
+
+作品图片建议放在：
+
+```text
+public/artworks/
+```
+
+全局视觉样式位于：
 
 ```text
 src/styles.css
 ```
 
-作品滚动墙图片在：
+如果要调整液态玻璃、背景质感或整体暗色主题，可以优先查看 `.site-backdrop`、`.liquid-glass` 和 `.liquid-glass-strong`。
 
-```ts
-marqueeImages
-```
+## GitHub Pages 部署
 
-当前主题使用 cinematic space-travel / liquid-glass 视觉语言，不再渲染此前的特殊 3D 人物图或漂浮装饰。
-
-如果你想调整背景质感，优先修改 `.site-backdrop`、`.liquid-glass` 和 `.liquid-glass-strong`，这样整站效果会保持一致。
-
-## 视觉主题说明
-
-本版本保留作品集的信息结构，并把视觉主题切换为：
+项目已经包含 GitHub Actions 自动部署工作流：
 
 ```text
-统一暗色雾面玻璃背景
-液态玻璃导航、按钮和卡片
-统一压色的作品媒体
-Instrument Serif 斜体标题
-Barlow 正文字体
+.github/workflows/deploy.yml
 ```
 
-如果你不想使用远程图片，可以下载到 `public/artworks/` 或 `public/assets/` 后改成站内路径。
+推荐设置：
 
-## 后续扩展建议
+1. 使用 `main` 作为仓库主分支。
+2. 打开仓库的 `Settings > Pages`。
+3. 在 `Build and deployment` 中选择 `GitHub Actions`。
+4. 推送代码到 `main` 后，工作流会自动构建并发布 `dist`。
 
-当前项目结构已经为新增功能预留了边界：
+如果仓库名是 `你的用户名.github.io`，站点根路径为 `/`，保持默认配置即可：
 
 ```text
-src/components/      页面区块与可复用组件
-src/content/         可配置内容数据
-src/lib/             工具函数
-public/artworks/     用户上传或替换的作品图片
+VITE_BASE_PATH=/
 ```
 
-适合继续添加的功能：
+如果仓库名类似 `portfolio`，访问地址通常是：
 
 ```text
-作品详情页
-作品分类筛选
-联系表单
-CMS 内容管理
-多语言切换
-暗色/亮色主题切换
-SEO 与 Open Graph 图片自动生成
+https://你的用户名.github.io/portfolio/
 ```
 
-如果后续要做作品详情页，建议引入 `react-router-dom` 或切换到 Next.js。当前版本是单页静态站，部署到 GitHub Pages 最简单。
+这时需要在 GitHub 仓库中添加 Actions 变量：
 
-## 常见问题
+```text
+Settings > Secrets and variables > Actions > Variables
+Name: VITE_BASE_PATH
+Value: /portfolio/
+```
 
-### 页面发布后样式或资源丢失
+本地也可以复制 `.env.example` 为 `.env.local` 后修改：
 
-检查 `VITE_BASE_PATH` 是否正确。用户站点通常是 `/`，普通项目站点通常是 `/仓库名/`。
+```bash
+cp .env.example .env.local
+```
 
-### 新上传图片没有显示
+```text
+VITE_BASE_PATH=/portfolio/
+```
 
-检查：
+## 推荐扩展
 
-1. 图片是否放在 `public/artworks/` 下。
-2. 配置路径是否以 `/artworks/...` 开头。
-3. 文件名大小写是否完全一致。
-4. 是否重新执行了 `npm run build` 或推送触发了 Actions。
-
-### 如何换成自己的域名
-
-在 GitHub 仓库的 `Settings > Pages > Custom domain` 配置域名。如果需要把 `CNAME` 文件纳入仓库，可以在 `public/CNAME` 中写入你的域名。
+- 作品详情页
+- 作品分类筛选
+- 联系表单
+- CMS 内容管理
+- 多语言切换
+- 暗色 / 亮色主题切换
+- SEO 与 Open Graph 图片
